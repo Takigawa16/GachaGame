@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GACHA DEBT — a visual novel gacha RPG</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎰</text></svg>" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================== LOGIN ============================== -->
+  <section class="screen" id="screen-auth">
+    <div class="auth-wrap">
+      <div class="auth-art">
+        <canvas id="auth-art"></canvas>
+        <div class="veil"></div>
+        <div class="splash-title">
+          <div class="logo"><b>GACHA&nbsp;DEBT</b><s>the $30,000 treasury incident</s></div>
+          <div class="hint" style="margin-top:14px;max-width:420px">
+            A turn-based gacha RPG with a visual-novel soul. Recruit operators, clear the campaign,
+            and discover why the student council treasury is $30,000 lighter.
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-form">
+        <div class="tabs" id="auth-tabs">
+          <div class="tab on" data-tab="login">Sign In</div>
+          <div class="tab" data-tab="register">Register</div>
+        </div>
+
+        <form id="auth-form" autocomplete="on">
+          <div class="col">
+            <label class="field">
+              <span class="label">Email</span>
+              <input type="email" id="auth-email" placeholder="doctor@rhodes-island.jp" autocomplete="email" required />
+            </label>
+            <label class="field" id="auth-user-field" style="display:none">
+              <span class="label">Doctor name</span>
+              <input type="text" id="auth-username" placeholder="Ynna" autocomplete="nickname" />
+            </label>
+            <label class="field">
+              <span class="label">Password</span>
+              <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" required />
+            </label>
+            <div class="err hidden" id="auth-err"></div>
+            <div class="row" style="margin-top:6px">
+              <button class="btn primary grow" id="auth-submit" type="submit">▸ Sign In</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="row" style="gap:10px;align-items:center">
+          <div style="height:1px;flex:1;background:var(--line)"></div>
+          <span class="label">or</span>
+          <div style="height:1px;flex:1;background:var(--line)"></div>
+        </div>
+
+        <button class="gbtn" id="btn-google">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.4-6.4C35.6 3 30.2 1 24 1 14.6 1 6.5 6.4 2.6 14.2l7.6 5.9C12.1 14.1 17.6 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-2.8-.4-4.1H24v7.8h12.6c-.3 2.1-1.6 5.2-4.6 7.3l7.4 5.7c4.4-4.1 6.7-10.1 6.7-16.7z"/>
+            <path fill="#FBBC05" d="M10.2 28.1c-.5-1.5-.8-3.1-.8-4.7s.3-3.2.8-4.7l-7.6-5.9C1 16.2 0 20 0 23.4s1 7.2 2.6 10.6l7.6-5.9z"/>
+            <path fill="#34A853" d="M24 47c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.4 0-11.9-4.6-13.8-10.6l-7.6 5.9C6.5 41.6 14.6 47 24 47z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+        <button class="btn ghost" id="btn-guest">▸ Continue as guest</button>
+        <div class="hint" id="google-note">Google Sign-In appears here once GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are set on the server.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================== HOME =============================== -->
+  <section class="screen" id="screen-home">
+    <div class="home-grid">
+      <div class="menu-col">
+        <div class="notice">
+          <span class="label" style="color:#ffb3ba">Breaking News</span>
+          <div class="marquee"><b>SPECIFIC OPERATORS DROP RATE UP</b></div>
+          <div class="marquee" style="margin-top:6px"><div class="marquee-track" id="home-marquee"></div></div>
+        </div>
+        <div class="bigmenu">
+          <button class="mbtn" data-nav="campaign"><span class="mb-i">🗺</span><span><span class="mb-t">Mission</span><span class="mb-s">Main Campaign · 5 Chapters</span></span></button>
+          <button class="mbtn gold" data-nav="gacha"><span class="mb-i">🎰</span><span><span class="mb-t">Store</span><span class="mb-s">Headhunt · Recruitment</span></span></button>
+          <button class="mbtn" data-nav="operator"><span class="mb-i">🎖</span><span><span class="mb-t">Operator</span><span class="mb-s">Level · Promote · Skills</span></span></button>
+          <button class="mbtn" data-nav="squads"><span class="mb-i">👥</span><span><span class="mb-t">Squads</span><span class="mb-s">Deploy Team</span></span></button>
+          <button class="mbtn red" data-nav="archive" id="nav-archive"><span class="mb-i">🗄</span><span><span class="mb-t">Archives</span><span class="mb-s">Story Log · Collection</span></span></button>
+          <button class="mbtn" data-nav="settings"><span class="mb-i">⚙</span><span><span class="mb-t">System</span><span class="mb-s">Account · Audio</span></span></button>
+        </div>
+      </div>
+
+      <div class="home-center">
+        <canvas id="home-art"></canvas>
+        <div class="home-hero">
+          <div class="hero-card">
+            <div class="hc-img"><canvas id="home-hero-art"></canvas></div>
+            <div class="hc-body row" style="align-items:flex-end">
+              <div class="grow">
+                <div class="label">Current Event</div>
+                <div class="h2" id="home-hero-title">A WALK IN THE DUSK</div>
+                <div class="hint" id="home-hero-desc">Rate-up banner live. Pity guaranteed at 50 pulls.</div>
+              </div>
+              <button class="btn gold sm" data-nav="gacha">▶ Recruit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-col">
+        <div class="row" style="justify-content:flex-end"><div class="lvl-chip"><div class="ring" id="home-ring"></div><div class="inner"><div class="label">Level</div><b id="home-level">1</b></div></div></div>
+        <div class="panel stripes" style="padding:12px 14px">
+          <div class="row"><span class="label">EXP</span><span class="spacer"></span><span class="mono" id="home-exp">0 / 500</span></div>
+          <div class="bar" style="margin-top:6px"><i id="home-expbar" style="width:0%"></i></div>
+          <div class="grid4" style="margin-top:12px">
+            <button class="tile" data-nav="gacha"><b id="home-tickets">0</b><small>Headhunt Permits</small></button>
+            <button class="tile" data-nav="archive"><b id="home-collection">0</b><small>Operators Owned</small></button>
+            <button class="tile" data-nav="operator"><b id="home-stars">0</b><small>Total ★ Stars</small></button>
+            <button class="tile" data-nav="campaign"><b id="home-progress">0/25</b><small>Stages Cleared</small></button>
+          </div>
+        </div>
+        <div class="sanity">
+          <div class="num mono" id="home-sanity">135</div>
+          <div class="grow">
+            <div class="label">Sanity / <span id="home-sanity-max">135</span></div>
+            <div class="bar" style="margin-top:6px"><i id="home-sanitybar" style="width:100%"></i></div>
+            <div class="hint" style="margin-top:5px">+1 every 3 minutes. Refills on daily supply.</div>
+          </div>
+          <button class="btn sm" id="btn-daily">Daily Supply</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CAMPAIGN ============================== -->
+  <section class="screen" id="screen-campaign">
+    <div class="camp-head">
+      <button class="btn sm" data-nav="home">◀ Back</button>
+      <div>
+        <div class="label">Main Campaign</div>
+        <div class="h2">WALKTHROUGH</div>
+      </div>
+      <span class="spacer"></span>
+      <div class="tag aqua" id="camp-progress-tag">0 / 25 STAGES</div>
+    </div>
+    <div class="chapters" id="chapters"></div>
+    <div class="stages"><div id="chapter-title" class="row" style="margin:6px 0 10px"></div><div class="stage-grid" id="stage-grid"></div></div>
+  </section>
+
+  <!-- ================================= VN ================================= -->
+  <section class="screen" id="screen-vn">
+    <div id="vn-bg"></div>
+    <div id="vn-portrait-wrap"><canvas id="vn-portrait"></canvas></div>
+    <div id="vn-vignette"></div>
+    <div class="vn-top">
+      <button class="btn sm" id="vn-quit">✕ Skip Scene</button>
+      <span class="vn-chap" id="vn-chapter">CH 1</span>
+      <span class="tag aqua" id="vn-stage"></span>
+      <span class="spacer"></span>
+      <button class="btn sm" id="vn-auto">⏵ AUTO</button>
+      <button class="btn sm" id="vn-fast">⏩ SPEED</button>
+    </div>
+    <div class="vn-dialogue">
+      <div class="vn-name" id="vn-name"><span>Narrator</span></div>
+      <div class="vn-box">
+        <div class="vn-text" id="vn-text"></div>
+        <div class="vn-actions">
+          <span class="hint" id="vn-progress">1 / 1</span>
+          <button class="btn xs" id="vn-back">◀ LOG</button>
+        </div>
+      </div>
+    </div>
+    <div class="vn-next">
+      <button class="btn primary" id="vn-continue">▸ Continue</button>
+    </div>
+  </section>
+
+  <!-- =============================== BATTLE =============================== -->
+  <section class="screen" id="screen-battle">
+    <div class="bt-top">
+      <button class="btn sm danger" id="bt-flee">✕ Retreat</button>
+      <div>
+        <div class="label" id="bt-loc">OPERATION</div>
+        <div class="bt-stage" id="bt-stage">STAGE</div>
+      </div>
+      <span class="spacer"></span>
+      <div class="bt-round" id="bt-round">ROUND 1</div>
+      <span class="spacer"></span>
+      <button class="btn sm" id="bt-auto">⏵ AUTO</button>
+      <div class="tag" id="bt-turn">YNNA'S TURN</div>
+    </div>
+
+    <div class="bt-field">
+      <div class="side">
+        <div class="side-label">Hostiles</div>
+        <div class="units" id="enemy-units"></div>
+      </div>
+      <div class="side">
+        <div class="side-label">Your Squad</div>
+        <div class="units" id="ally-units"></div>
+      </div>
+      <div class="combat-log" id="combat-log"></div>
+    </div>
+
+    <div class="bt-controls">
+      <div class="skills" id="skill-bar"></div>
+      <div class="col" style="gap:6px;align-items:flex-end">
+        <div class="hint" id="bt-hint">Select a skill.</div>
+        <button class="btn sm" id="bt-basic">⚔ Basic Attack (0 SP)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================== GACHA =============================== -->
+  <section class="screen" id="screen-gacha">
+    <div class="camp-head">
+      <button class="btn sm" data-nav="home">◀ Back</button>
+      <div><div class="label">Store</div><div class="h2">HEADHUNT</div></div>
+      <span class="spacer"></span>
+      <div class="tag gold">PITY: <span id="gacha-pity-tag">0</span> / 50</div>
+      <div class="tag aqua">RATES: R 60% · SR 30.5% · SSR 8% · UR 1.5%</div>
+    </div>
+    <div class="gacha-wrap">
+      <div class="col" id="banner-list" style="overflow:auto"></div>
+      <div class="pull-panel">
+        <div class="subpanel">
+          <div class="label">Selected Banner</div>
+          <div class="h2" id="sel-banner-name">STANDARD HEADHUNT</div>
+          <div class="hint" id="sel-banner-desc"></div>
+          <div class="pity">
+            <div class="row"><span class="label">Pity Meter</span><span class="spacer"></span><span class="mono" id="pity-num">0 / 50</span></div>
+            <div class="bar" style="margin-top:6px"><i id="pity-bar" style="width:0%"></i></div>
+            <div class="hint" style="margin-top:5px">Guaranteed <b>SSR or higher</b> at 50 pulls. Soft pity ramps from pull 36.</div>
+          </div>
+        </div>
+        <div class="subpanel">
+          <div class="label">Pull</div>
+          <div class="row" style="gap:9px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn primary skew" id="pull-1"><span>Pull ×1 &nbsp;<b id="cost-1">300💎</b></span></button>
+            <button class="btn gold skew" id="pull-10"><span>Pull ×10 &nbsp;<b id="cost-10">3000💎</b></span></button>
+          </div>
+          <div class="hint" style="margin-top:8px">Headhunt Permits are consumed first; gems cover the rest. Duplicates raise <b>Potential</b> (stats) — maxed operators convert to tokens.</div>
+        </div>
+        <div class="subpanel">
+          <div class="label">Drop Table</div>
+          <table class="rate-table" id="rate-table"></table>
+        </div>
+        <div class="subpanel">
+          <div class="row"><span class="label">Recent Acquisitions</span><span class="spacer"></span><span class="hint" id="pull-total">0 pulls</span></div>
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:8px" id="recent-pulls"></div>
+        </div>
+        <div class="subpanel">
+          <div class="row"><span class="label">Depot — distinct exchange</span><span class="spacer"></span>
+            <button class="btn xs gold" id="btn-depot">Open Depot</button></div>
+          <div class="hint" style="margin-top:6px">Duplicates of maxed operators become rarity tokens. Trade them for permits, gems or skill manuals.</div>
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:8px" id="depot-summary"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== OPERATOR ============================== -->
+  <section class="screen" id="screen-operator">
+    <div class="camp-head">
+      <button class="btn sm" data-nav="home">◀ Back</button>
+      <div><div class="label">Operator Management</div><div class="h2">ROSTER</div></div>
+      <span class="spacer"></span>
+      <div class="tag aqua" id="op-count">0 OPERATORS</div>
+      <button class="btn sm" id="op-squad-btn">▸ Edit Squad</button>
+    </div>
+    <div class="op-wrap">
+      <div class="subpanel col" style="gap:10px;overflow:hidden">
+        <div class="row"><span class="label">Owned</span><span class="spacer"></span><span class="hint" id="op-filter-hint">Click to inspect</span></div>
+        <div class="op-list" id="op-list"></div>
+      </div>
+      <div class="op-detail" id="op-detail"></div>
+    </div>
+  </section>
+
+  <!-- ============================== ARCHIVE =============================== -->
+  <section class="screen" id="screen-archive">
+    <div class="camp-head">
+      <button class="btn sm" data-nav="home">◀ Back</button>
+      <div><div class="label">Archives</div><div class="h2">COLLECTION &amp; STORY LOG</div></div>
+      <span class="spacer"></span>
+      <div class="tag violet" id="arch-count">0 / 0 COLLECTED</div>
+    </div>
+    <div class="arch-wrap">
+      <div class="subpanel col" style="overflow:hidden">
+        <div class="row"><span class="label">Operator Archive</span><span class="spacer"></span><span class="hint">Owned operators are revealed; silhouettes are still out there.</span></div>
+        <div class="arch-grid" id="arch-grid"></div>
+      </div>
+      <div class="subpanel col" style="overflow:hidden">
+        <div class="row"><span class="label">Story Log</span><span class="spacer"></span><span class="hint">Re-watch any scene you have unlocked.</span></div>
+        <div class="log-list" id="story-log"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="grain"></div>
+<div id="scan"></div>
+<div class="toasts" id="toasts"></div>
+<div id="overlay-root"></div>
+
+<script src="/js/art.js"></script>
+<script src="/js/audio.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/vn.js"></script>
+<script src="/js/battle.js"></script>
+<script src="/js/gacha.js"></script>
+<script src="/js/operator.js"></script>
+<script src="/js/campaign.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

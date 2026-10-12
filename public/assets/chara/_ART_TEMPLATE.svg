@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 1440" width="980" height="1440" font-family="system-ui, Arial, sans-serif">
+  <defs>
+    <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M100 0H0V100" fill="none" stroke="#22303f" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="980" height="1440" fill="#0b1017"/>
+  <rect x="140" y="120" width="700" height="1200" fill="#121a24" stroke="#3ce0ff" stroke-width="3"/>
+  <rect x="140" y="120" width="700" height="1200" fill="url(#grid)" opacity=".55"/>
+
+  <!-- safe boxes -->
+  <rect x="200" y="180" width="580" height="420" fill="none" stroke="#ffcf5c" stroke-width="3" stroke-dasharray="14 10"/>
+  <rect x="255" y="745" width="470" height="440" fill="none" stroke="#ff77c8" stroke-width="3" stroke-dasharray="14 10"/>
+
+  <!-- labels -->
+  <text x="140" y="80" fill="#eef2f7" font-size="40" font-weight="800">CHARACTER ART TEMPLATE — 700 × 1200</text>
+  <text x="140" y="108" fill="#93a1b5" font-size="24">save as  public/assets/chara/&lt;operator-id&gt;.png   (transparent background)</text>
+
+  <text x="212" y="212" fill="#ffcf5c" font-size="24" font-weight="700">HEAD ZONE — put the face in here</text>
+  <text x="212" y="240" fill="#ffe6a8" font-size="20">keeps the head inside every crop (VN sprite, roster card, battle unit)</text>
+
+  <text x="267" y="777" fill="#ff77c8" font-size="24" font-weight="700">BODY ZONE — torso &amp; arms</text>
+  <text x="267" y="805" fill="#ffc9ec" font-size="20">battle cards crop around the shoulders; keep the silhouette readable</text>
+
+  <!-- centre line -->
+  <line x1="490" y1="120" x2="490" y2="1320" stroke="#3ce0ff" stroke-width="2" stroke-dasharray="8 8" opacity=".7"/>
+  <text x="500" y="1310" fill="#3ce0ff" font-size="20">centre line</text>
+
+  <!-- foot note -->
+  <text x="140" y="1395" fill="#93a1b5" font-size="22">Existing procedural art is used automatically until a file with this name exists — no code changes required.</text>
+
+  <!-- sample operator chip -->
+  <g transform="translate(140,1290)">
+    <rect width="700" height="0" fill="none"/>
+  </g>
+</svg>

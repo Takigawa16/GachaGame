@@ -1,0 +1,14 @@
+{
+  "name": "gacha-debt",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GACHA DEBT - a bilingual-flavoured turn-based gacha RPG with a visual-novel soul. Zero runtime dependencies.",
+  "type": "commonjs",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
